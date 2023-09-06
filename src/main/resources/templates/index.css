@@ -1,0 +1,134 @@
+
+.container{
+  height: 100%;
+  width:100%;
+  scroll-snap-type: y mandatory;
+  overflow-y:scroll;
+  overflow-x: hidden;
+}
+
+.mainscroll-frame {
+    position: relative;
+    height:100vh;
+    width:100vw;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    scroll-snap-align: start;
+  }
+
+.mainscroll-frame .background-photo {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.mainscroll-frame .background-overlay {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.side-tray {
+  gap: 15px;
+  top: 50%;
+  right:10px;
+  width: 60px;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  flex-shrink: 0;
+
+  flex-direction: column;
+  justify-content: center;
+
+}
+
+.side-tray .side-tray-button{
+  box-shadow: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height:48px;
+  width: 48px;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.side-tray .side-tray-button img{
+  height:100%;
+  width: 100%;
+}
+
+
+.side-tray .side-tray-button .mainscroll-text {
+  color: rgba(255, 255, 255, 1);
+  height: auto;
+  font-style: Regular;
+  text-align: center;
+  font-weight: 400;
+  line-height: normal;
+  font-stretch: normal;
+  text-decoration: none;
+}
+
+
+
+
+.mainscroll-bottomtray {
+  gap: 10px;
+  bottom: 20px;
+  left: 0px;
+  width: 100%;
+  height: 48px;
+  display: flex;
+  padding: 6px 6px;
+  overflow: hidden; 
+  position: absolute;
+  align-items: center;
+  flex-shrink: 0;
+  justify-content: center;
+}
+.mainscroll-bottomtray .add-to-cart {
+  width: 40%;
+  height: 100%;
+  text-decoration: NONE;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-color: rgba(255, 255, 255, 1);
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 20px;
+}
+
+
+.mainscroll-bottomtray .add-to-cart .text,
+.mainscroll-bottomtray .buy-now .text  {
+  color: rgba(255, 255, 255, 1);
+  height: auto;
+  text-align: center;
+  font-weight: 400;
+  line-height: normal;
+  font-stretch: normal;
+  text-decoration: none;
+}
+.mainscroll-bottomtray .buy-now {
+  text-decoration: none;
+  width: 40%;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 20px;
+  background-color: var(--orange)
+}

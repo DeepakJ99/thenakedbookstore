@@ -1,0 +1,15 @@
+body{
+    margin:0;
+    height:100vh;
+    width:100vw;
+    --seagreen-dark : #264653;
+    --seagreen-light:#2A9D8F;
+    --yellow:#E9C46A;
+    --saffron:#F4A261;
+    --orange:#E76F51;
+    --grey: rgba(236, 236, 236, 1);
+    overflow-x: hidden;
+    font-family: Quicksand;
+    font-size: 15px;;
+  }
+  
