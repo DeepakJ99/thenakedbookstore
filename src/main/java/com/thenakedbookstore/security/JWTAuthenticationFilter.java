@@ -1,6 +1,5 @@
 package com.thenakedbookstore.security;
 
-import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

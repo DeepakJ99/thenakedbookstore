@@ -1,6 +1,6 @@
 package com.thenakedbookstore.config;
 
-import com.example.newsarchivesystem.Services.UserService;
+import com.thenakedbookstore.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,15 +17,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
-    private final UserService userService;
+    private final CustomerService customerService;
     @Bean
     public UserDetailsService userDetailsService(){
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return userService.GetUser(username);
-            }
-        };
+        return username -> customerService.getCustomerById(username);
     }
     @Bean
     public PasswordEncoder getPasswordEncoder(){

@@ -1,8 +1,7 @@
 package com.thenakedbookstore.config;
 
-import com.example.newsarchivesystem.Security.JWTAuthenticationFilter;
-import com.example.newsarchivesystem.Services.UserService;
 
+import com.thenakedbookstore.security.JWTAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -52,5 +51,4 @@ public class SecurityConfig {
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
 }

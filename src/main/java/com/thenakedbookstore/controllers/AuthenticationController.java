@@ -1,7 +1,8 @@
 package com.thenakedbookstore.controllers;
 
 
-import com.example.newsarchivesystem.Services.AuthenticationService;
+
+import com.thenakedbookstore.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
