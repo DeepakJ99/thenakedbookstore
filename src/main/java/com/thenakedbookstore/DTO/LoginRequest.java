@@ -1,4 +1,4 @@
-package com.thenakedbookstore.controllers;
+package com.thenakedbookstore.DTO;
 
 
 import lombok.AllArgsConstructor;
@@ -7,9 +7,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class AuthenticationResponse {
-    public String token;
+public class LoginRequest {
+    String username;
+    String password;
 }

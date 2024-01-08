@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "_Customers")
-public class Customer implements UserDetails {
+public class User implements UserDetails {
 
     @GeneratedValue(strategy = GenerationType.UUID)
     private int ID;
