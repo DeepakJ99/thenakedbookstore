@@ -14,14 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Getter
-@Setter
-@Table(name = "_Customers")
 public class User implements UserDetails {
 
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private int ID;
     @Id
+    @GeneratedValue
+    private Integer ID;
+
     private String email;
     private String password;
     private String name;
@@ -40,21 +38,21 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

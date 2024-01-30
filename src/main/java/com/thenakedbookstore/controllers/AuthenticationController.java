@@ -23,7 +23,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
 public class AuthenticationController {
-
     private final AuthenticationService authenticationService;
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegistrationRequest request){

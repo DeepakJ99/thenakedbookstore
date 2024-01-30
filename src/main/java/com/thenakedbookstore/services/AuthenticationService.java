@@ -15,12 +15,15 @@ import com.thenakedbookstore.security.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +36,7 @@ public class AuthenticationService {
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    @Autowired
     private final AuthenticationManager authenticationManager;
 
 
@@ -52,47 +56,48 @@ public class AuthenticationService {
                     .build();
 
             var savedUser = repository.save(user);
-            var jwtToken = jwtService.generateToken(user);
-            var refreshToken = jwtService.generateRefreshToken(user);
-            saveUserToken(savedUser, jwtToken);
 
-            return ResponseEntity.ok(SecurityConfig.AuthenticationResponse.builder()
-                    .accessToken(jwtToken)
-                    .refreshToken(refreshToken)
-                    .build());
+
+            return ResponseEntity.status(HttpStatus.OK).body("Registration Successful");
         } catch (DataIntegrityViolationException e) {
             // Handle other database-related exceptions if needed
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during user registration");
         }
     }
     public ResponseEntity<?> login(LoginRequest request) {
-        try {
-            // Check if a user with the given username exists
-            var user = repository.findByEmail(request.getUsername())
-                    .orElseThrow(() -> new RuntimeException("User with this username not found."));
 
-            // Continue with authentication logic
-            authenticationManager.authenticate(
+        System.out.println(request);
+        try {
+
+            // Check if a user with the given username exists
+            var user = repository.findByEmail(request.getEmail())
+                    .orElseThrow(() -> new RuntimeException("User with this username not found."));
+            Authentication authResult = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.getUsername(),
-                            request.getPassword()
+                            request.getEmail().strip(),
+                            request.getPassword().strip()
                     )
             );
-
+         //    Continue with authentication logic
             var jwtToken = jwtService.generateToken(user);
             var refreshToken = jwtService.generateRefreshToken(user);
+            System.out.println(jwtToken);
             revokeAllUserTokens(user);
             saveUserToken(user, jwtToken);
 
             return ResponseEntity.ok(SecurityConfig.AuthenticationResponse.builder()
                     .accessToken(jwtToken)
-                    .refreshToken(refreshToken)
-                    .build());
+                        .refreshToken(refreshToken)
+                            .role(user.getRole().toString())
+                                .build());
         } catch (RuntimeException e) {
+            System.out.println("User not found");
             // Handle the case where the user with the given username is not found
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found or invalid credentials.");
         } catch (Exception e) {
+            System.out.println("2");
             // Handle other exceptions if needed
+            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during login.");
         }
     }

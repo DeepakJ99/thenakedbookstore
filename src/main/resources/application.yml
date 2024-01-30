@@ -3,10 +3,10 @@ spring:
     url: jdbc:mysql://localhost:3306/test_db
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: Snap@123
+    password: password
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
