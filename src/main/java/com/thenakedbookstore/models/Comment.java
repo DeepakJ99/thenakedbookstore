@@ -1,5 +1,6 @@
 package com.thenakedbookstore.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,8 @@ public class Comment {
     private int likeCount;
 
     @ManyToOne
-    private BookSlide slide;
+    @JsonIgnore
+    private Slide slide;
 
     // Constructors, getters, setters, etc.
 

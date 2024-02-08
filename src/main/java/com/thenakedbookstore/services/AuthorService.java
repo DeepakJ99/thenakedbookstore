@@ -4,11 +4,15 @@ package com.thenakedbookstore.services;
 import com.thenakedbookstore.DAO.AuthorRepository;
 import com.thenakedbookstore.DTO.BookDTO;
 import com.thenakedbookstore.models.Author;
+import com.thenakedbookstore.models.Book;
+import jakarta.transaction.Transactional;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Book;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -17,23 +21,45 @@ import java.util.Optional;
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
-    public Author GetOrSaveNew(String author, BookDTO book) {
-        Optional<Author> authorObject = authorRepository.findByName(author);
+    public Author getOrSaveNew(String authorName, BookDTO bookDTO) {
+        Optional<Author> authorObject = authorRepository.findByName(authorName);
         if(authorObject.isPresent()){
-            addBook(authorObject.get(), book);
-            return authorObject.get();
+
+            Author existingAuthor =  authorObject.get();
+            return  existingAuthor;
         }
         else{
-            return newAuthor(author, book);
+            Author newAuthor = Author.builder()
+                    .name(authorName)
+                    .books(new ArrayList<>())
+                    .build();
+            return authorRepository.save(newAuthor);
         }
     }
 
-    public void addBook(Author author, BookDTO bookDTO){
-        author.addBook(Book.builder)
+    @Transactional
+    public void addBook(Author a, Book b){
+        List<Book> existingBooks = a.getBooks();
+        existingBooks.add(b);
+        a.setBooks(existingBooks);
     }
 
-    public Author newAuthor(String authorName, BookDTO bookDTO){
-        Author author = new Author(authorName);
-        author.AddBook()
+
+
+    public Author getAuthorById(Long authorId) {
+        return authorRepository.findById(authorId)
+                .orElseThrow(() -> new NoSuchElementException("Author not found with ID: " + authorId));
+    }
+
+    public List<Author> getAllAuthors() {
+        System.out.println("Getting all authors");
+        List<Author> ls = authorRepository.findAll();
+        return ls;
+    }
+
+
+    public List<Book> getBooksByAuthorId(Long authorId) {
+        Author author = getAuthorById(authorId);
+        return author.getBooks();
     }
 }

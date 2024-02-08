@@ -1,7 +1,7 @@
 package com.thenakedbookstore.controllers;
 
 
-import com.thenakedbookstore.models.BookSlide;
+import com.thenakedbookstore.models.Slide;
 import com.thenakedbookstore.services.SlideService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class SlideController {
     private final SlideService slideService;
 
     @GetMapping("/random")
-    public List<BookSlide> getRandomSlides(){
+    public List<Slide> getRandomSlides(){
         return slideService.getRandomSlides();
     }
 }

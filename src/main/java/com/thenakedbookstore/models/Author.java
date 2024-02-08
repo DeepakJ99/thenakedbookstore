@@ -1,6 +1,9 @@
 package com.thenakedbookstore.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -8,6 +11,8 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class Author {
 
@@ -17,7 +22,8 @@ public class Author {
 
     private String name;
 
-    @OneToMany(mappedBy = "authors", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToMany(mappedBy = "authors", cascade = CascadeType.ALL)
     private List<Book> books;
 
     // Constructors, getters, setters, etc.
