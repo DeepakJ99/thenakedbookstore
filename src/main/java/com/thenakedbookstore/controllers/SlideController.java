@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/v1/slides")
 @RequiredArgsConstructor
 @Data
-public class SlideController {
+public class  SlideController {
 
     private final SlideService slideService;
 

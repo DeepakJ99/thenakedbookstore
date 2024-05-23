@@ -25,9 +25,7 @@ public class BookController {
     @GetMapping()
     public List<BookDTO> getAllBooks() {
 
-        return bookService.getAllBooks().stream().map((book) -> {
-            return bookService.getDTOFromBook(book);
-        }).collect(Collectors.toList());
+        return bookService.getAllBooks().stream().map(bookService::getDTOFromBook).collect(Collectors.toList());
     }
 
     @GetMapping("/{bookId}")

@@ -8,9 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/api/v1/Author")
@@ -35,8 +37,8 @@ public class AuthorController {
     }
 
     @GetMapping("/{authorId}/books")
-    public ResponseEntity<List<Book>> getBooksByAuthorId(@PathVariable Long authorId) {
-        List<Book> books = authorService.getBooksByAuthorId(authorId);
+    public ResponseEntity<Set<Book>> getBooksByAuthorId(@PathVariable Long authorId) {
+        Set<Book> books = authorService.getBooksByAuthorId(authorId);
         return ResponseEntity.ok(books);
     }
 
@@ -46,7 +48,7 @@ public class AuthorController {
     public ResponseEntity<Author> addNewBook(
             @RequestParam String authorName,
             @RequestBody BookDTO bookDTO) {
-        Author author = authorService.getOrSaveNew(authorName, bookDTO);
+        Author author = authorService.createAuthor(authorName);
         return ResponseEntity.status(HttpStatus.CREATED).body(author);
     }
 }

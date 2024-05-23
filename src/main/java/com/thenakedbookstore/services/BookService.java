@@ -20,9 +20,11 @@ public class BookService {
 
     @Autowired
     private final BookRepository bookRepository;
-
+    @Autowired
     private final SlideService slideService;
+    @Autowired
     private final AuthorService authorService;
+
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
@@ -40,22 +42,19 @@ public class BookService {
     public Book saveBook(BookDTO bookDTO) {
         System.out.println("savebook bookservice");
         // Additional logic or validation can be added here
-        Set<Author> authors = bookDTO.getAuthors().stream().map((authorName)->{
-            return authorService.getOrSaveNew(authorName, bookDTO);
-        }).collect(Collectors.toUnmodifiableSet());
-
-
+        Set<Author> authors = bookDTO.getAuthors().stream().map(authorService::createAuthor).collect(Collectors.toUnmodifiableSet());
+        System.out.println("authors: " + authors);
         Book book =  Book.builder()
                 .authors(authors)
                 .title(bookDTO.getTitle())
                 .build();
-
         Book savedBook = bookRepository.save(book);
+        System.out.println("SAVED Book  " + savedBook);
         List<Slide> slides = slideService.createSlides(savedBook);
-        System.out.println(slides);
+        System.out.println("Related slides " + slides);
         savedBook.setSlides(slides);
-//        System.out.println(savedBook);
-        return bookRepository.save(savedBook);
+
+        return savedBook;
     }
 
     public void deleteBook(Long bookId) {

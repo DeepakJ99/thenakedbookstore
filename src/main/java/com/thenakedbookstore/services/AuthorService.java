@@ -10,10 +10,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -21,17 +18,19 @@ import java.util.Optional;
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
-    public Author getOrSaveNew(String authorName, BookDTO bookDTO) {
+    @Transactional
+    public Author createAuthor(String authorName) {
         Optional<Author> authorObject = authorRepository.findByName(authorName);
+        System.out.println("Author exists"+authorObject.isPresent());
         if(authorObject.isPresent()){
-
-            Author existingAuthor =  authorObject.get();
-            return  existingAuthor;
+            Author author = authorObject.get();
+            System.out.println("Author already exists"+author);
+            return authorObject.get();
         }
         else{
             Author newAuthor = Author.builder()
                     .name(authorName)
-                    .books(new ArrayList<>())
+                    .books(new HashSet<>())
                     .build();
             return authorRepository.save(newAuthor);
         }
@@ -39,9 +38,9 @@ public class AuthorService {
 
     @Transactional
     public void addBook(Author a, Book b){
-        List<Book> existingBooks = a.getBooks();
-        existingBooks.add(b);
-        a.setBooks(existingBooks);
+        Set<Book> books = a.getBooks();
+        books.add(b);
+        a.setBooks(books);
     }
 
 
@@ -58,7 +57,7 @@ public class AuthorService {
     }
 
 
-    public List<Book> getBooksByAuthorId(Long authorId) {
+    public Set<Book> getBooksByAuthorId(Long authorId) {
         Author author = getAuthorById(authorId);
         return author.getBooks();
     }

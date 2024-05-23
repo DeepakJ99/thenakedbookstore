@@ -37,6 +37,6 @@ public class SlideService {
             ls.add(slide);
             slideRepository.save(slide);
         }
-        return slideRepository.findAllByBookId();
+        return slideRepository.findAllByBookId(book.getId());
     }
 }

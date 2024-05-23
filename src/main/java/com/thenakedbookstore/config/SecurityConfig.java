@@ -35,7 +35,8 @@ public class SecurityConfig {
     private static final String[] WHITE_LIST_URL = {
             "/api/v1/auth/**",
             "h2-console/**",
-            "/hello"
+            "/hello",
+            "/api/v1/slides/**"
     };
     private static final String[] ADMIN_ONLY_URLS = {
             "/api/v1/admin/**",

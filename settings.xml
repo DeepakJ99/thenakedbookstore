@@ -1,0 +1,26 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                              https://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <localRepository>${user.home}/.m2/repository</localRepository>
+    <interactiveMode>true</interactiveMode>
+    <offline>false</offline>
+    <pluginGroups>
+        <pluginGroup>org.apache.maven.plugins</pluginGroup>
+    </pluginGroups>
+    <proxies>
+        <!-- Proxy settings can be added here if needed -->
+    </proxies>
+    <servers>
+        <!-- Server configurations can be added here if needed -->
+    </servers>
+    <mirrors>
+        <!-- Mirror configurations can be added here if needed -->
+    </mirrors>
+    <profiles>
+        <!-- Profile configurations can be added here if needed -->
+    </profiles>
+    <activeProfiles>
+        <!-- Active profile names can be added here if needed -->
+    </activeProfiles>
+</settings>
