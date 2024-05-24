@@ -8,6 +8,7 @@ import com.thenakedbookstore.models.Slide;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -39,7 +40,7 @@ public class BookService {
 
     }
 
-    public Book saveBook(BookDTO bookDTO) {
+    public Book saveBook(BookDTO bookDTO) throws DataIntegrityViolationException {
         System.out.println("savebook bookservice");
         // Additional logic or validation can be added here
         Set<Author> authors = bookDTO.getAuthors().stream().map(authorService::createAuthor).collect(Collectors.toUnmodifiableSet());

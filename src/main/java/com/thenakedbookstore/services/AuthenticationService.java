@@ -1,7 +1,6 @@
 package com.thenakedbookstore.services;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thenakedbookstore.DAO.TokenRepository;
 import com.thenakedbookstore.DAO.UserRepository;
 import com.thenakedbookstore.DTO.LoginRequest;
@@ -12,8 +11,6 @@ import com.thenakedbookstore.config.TokenType;
 import com.thenakedbookstore.models.Token;
 import com.thenakedbookstore.models.User;
 import com.thenakedbookstore.security.JwtService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,9 +20,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.io.IOException;
 
@@ -124,15 +121,13 @@ public class AuthenticationService {
         tokenRepository.saveAll(validUserTokens);
     }
 
-    public void refreshToken(
-            HttpServletRequest request,
-            HttpServletResponse response
+    public ResponseEntity<?> refreshToken(
+             String authHeader
     ) throws IOException {
-        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
         final String userEmail;
         if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
-            return;
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
         }
         refreshToken = authHeader.substring(7);
         userEmail = jwtService.extractUsername(refreshToken);
@@ -146,9 +141,11 @@ public class AuthenticationService {
                 var authResponse = SecurityConfig.AuthenticationResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
+                        .role("ADMIN")
                         .build();
-                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
+                return ResponseEntity.status(HttpStatus.OK).body(authResponse);
             }
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
     }
 }

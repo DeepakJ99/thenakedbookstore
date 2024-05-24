@@ -4,17 +4,12 @@ package com.thenakedbookstore.controllers;
 
 import com.thenakedbookstore.DTO.LoginRequest;
 import com.thenakedbookstore.DTO.RegistrationRequest;
-import com.thenakedbookstore.config.SecurityConfig;
 import com.thenakedbookstore.services.AuthenticationService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -36,11 +31,10 @@ public class AuthenticationController {
     }
 
     @PostMapping("/refresh-token")
-    public void refreshToken(
-            HttpServletRequest request,
-            HttpServletResponse response
-    ) throws IOException {
-        authenticationService.refreshToken(request, response);
+    public ResponseEntity<?> refreshToken(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String refreshToken
+            ) throws IOException {
+        return authenticationService.refreshToken(refreshToken);
     }
 
 }

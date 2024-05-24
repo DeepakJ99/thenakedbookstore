@@ -7,6 +7,7 @@ import com.thenakedbookstore.services.AuthorService;
 import com.thenakedbookstore.services.BookService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,8 +36,13 @@ public class BookController {
     }
 
     @PostMapping
-    public BookDTO saveBook(@RequestBody BookDTO book) {
-        return  bookService.getDTOFromBook(bookService.saveBook(book));
+    public ResponseEntity<?> saveBook(@RequestBody BookDTO book) {
+        try{
+            return  ResponseEntity.ok().body(bookService.getDTOFromBook(bookService.saveBook(book)));
+
+        }catch (DataIntegrityViolationException d){
+            return  ResponseEntity.badRequest().body(d.getMessage());
+        }
     }
 
     @DeleteMapping("/{bookId}")

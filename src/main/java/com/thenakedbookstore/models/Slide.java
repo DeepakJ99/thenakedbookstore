@@ -2,18 +2,16 @@ package com.thenakedbookstore.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Data
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
+@Getter
+@Setter
 public class Slide {
 
     @Id
